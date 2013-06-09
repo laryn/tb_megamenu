@@ -366,10 +366,7 @@ function tb_megamenu_find_hook_templates($cache, $path) {
 
   foreach ($cache as $hook => $info) {
     if (!empty($info['pattern'])) {
-      // Transform _ in pattern to - to match file naming scheme
-      // for the purposes of searching.
       $pattern = strtr($info['pattern'], '_', '-');
-
       $matches = preg_grep('/^'. $pattern .'/', $patterns);
       if ($matches) {
         foreach ($matches as $match) {
