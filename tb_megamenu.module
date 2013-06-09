@@ -267,4 +267,3 @@ function tb_megamenu_theme_registry_alter(&$theme_registry) {
     }
   }
 }
-
