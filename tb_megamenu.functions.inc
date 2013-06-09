@@ -331,21 +331,14 @@ function tb_megamenu_find_hook_templates($cache, $path) {
   $templates = array();
   $regex = '/\.tpl\.php$/';
 
-  // Because drupal_system_listing works the way it does, we check for real
-  // templates separately from checking for patterns.
   $files = drupal_system_listing($regex, $path, 'name', 0);
   if(isset($files['tb-megamenu-submenu--default.tpl'])) {
     unset($files['tb-megamenu-submenu--default.tpl']);
   }
   foreach ($files as $template => $file) {
-    // Chop off the remaining extensions if there are any. $template already
-    // has the rightmost extension removed, but there might still be more,
-    // such as with .tpl.php, which still has .tpl in $template at this point.
     if (($pos = strpos($template, '.')) !== FALSE) {
       $template = substr($template, 0, $pos);
     }
-    // Transform - in filenames to _ to match function naming scheme
-    // for the purposes of searching.
     $hook = strtr($template, '-', '_');
     if (isset($cache[$hook])) {
       $templates[$hook] = array(
@@ -354,9 +347,6 @@ function tb_megamenu_find_hook_templates($cache, $path) {
         'includes' => isset($cache[$hook]['includes']) ? $cache[$hook]['includes'] : NULL,
       );
     }
-    // Ensure that the pattern is maintained from base themes to its sub-themes.
-    // Each sub-theme will have their templates scanned so the pattern must be
-    // held for subsequent runs.
     if (isset($cache[$hook]['pattern'])) {
       $templates[$hook]['pattern'] = $cache[$hook]['pattern'];
     }
